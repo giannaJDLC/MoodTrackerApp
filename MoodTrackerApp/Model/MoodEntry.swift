@@ -12,18 +12,26 @@ import SwiftData
 final class MoodEntry {
     var id = UUID()
     var date: Date
-    var timeSlot: TimeSlot
     var mood: Mood
     var thoughtCategory: ThoughtCategory
-    
-    init(date: Date, timeSlot: TimeSlot, mood: Mood, thoughtCategory: ThoughtCategory) {
-        self.date = date
-        self.timeSlot = timeSlot
-        self.mood = mood
-        self.thoughtCategory = thoughtCategory
-    }
+    var timeSlotRawValue: String
     
     var calendarDay: Date {
         Calendar.current.startOfDay(for: date)
     }
+    
+    @Transient
+    var timeSlot: TimeSlot {
+            get { TimeSlot(rawValue: self.timeSlotRawValue) ?? .morning } // Provide a default fallback
+            set { self.timeSlotRawValue = newValue.rawValue }
+        }
+    
+    init(date: Date, timeSlot: TimeSlot, mood: Mood, thoughtCategory: ThoughtCategory) {
+        self.date = date
+        self.timeSlotRawValue = timeSlot.rawValue
+        self.mood = mood
+        self.thoughtCategory = thoughtCategory
+    }
+    
+
 }

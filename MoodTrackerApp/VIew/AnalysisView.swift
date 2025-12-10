@@ -9,7 +9,6 @@ import SwiftUI
 import SwiftData
 struct AnalysisView: View {
     @Query(sort: [SortDescriptor(\MoodEntry.date, order: .reverse)]) var entries: [MoodEntry]
-    
     @State private var vm = AnalysisViewModel()
     
     var body: some View {

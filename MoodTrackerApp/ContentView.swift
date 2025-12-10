@@ -9,11 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+
     @State private var settings = AppSettings()
        
        var body: some View {
            TabView {
-               MoodEntryView(settings: settings)
+               MoodEntryView(settings: settings, modelContext: modelContext)
                    .tabItem { Label("Entry", systemImage: "pencil.circle.fill") }
                
                CalendarView()
