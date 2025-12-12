@@ -15,7 +15,7 @@ struct MoodTrackerApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: MoodEntry.self) 
+        .modelContainer(for: [MoodEntry.self, AppSettings.self])
     }
     
     

@@ -8,18 +8,37 @@ import SwiftUI
 import UserNotifications
 import SwiftData
 
-@Observable
-class AppSettings {
-    var notificationTimes: [TimeSlot: Date] = [
-        .morning: TimeSlot.morning.defaultTime,
-        .afternoon: TimeSlot.afternoon.defaultTime,
-        .evening: TimeSlot.evening.defaultTime
-    ]
+@Model
+final class AppSettings {
+    var _notificationTimesRaw: [String: Date]
+    
+    // Public computed property for safe, enum-based access
+    @Transient var notificationTimes: [TimeSlot: Date] {
+        get {
+            // Convert String keys back to TimeSlot enums for app use
+            return _notificationTimesRaw.reduce(into: [:]) { result, element in
+                if let slot = TimeSlot(rawValue: element.key) {
+                    result[slot] = element.value
+                }
+            }
+        }
+        set {
+            // Convert TimeSlot keys to String keys for storage
+            let rawDictionaryArray = newValue.map { ($0.key.rawValue, $0.value) }
+            self._notificationTimesRaw = Dictionary(uniqueKeysWithValues: rawDictionaryArray)
+            print("✅ SETTER: _notificationTimesRaw updated.")
+        }
+    }
     
     init() {
+        self._notificationTimesRaw = [
+            TimeSlot.morning.rawValue: TimeSlot.morning.defaultTime,
+            TimeSlot.afternoon.rawValue: TimeSlot.afternoon.defaultTime,
+            TimeSlot.evening.rawValue: TimeSlot.evening.defaultTime
+        ]
         requestNotificationPermission()
     }
-        
+    
     func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if granted {
@@ -57,5 +76,4 @@ class AppSettings {
             }
         }
     }
-    
 }
