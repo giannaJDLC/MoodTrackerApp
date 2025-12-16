@@ -12,10 +12,8 @@ import SwiftData
 final class AppSettings {
     var _notificationTimesRaw: [String: Date]
     
-    // Public computed property for safe, enum-based access
     @Transient var notificationTimes: [TimeSlot: Date] {
         get {
-            // Convert String keys back to TimeSlot enums for app use
             return _notificationTimesRaw.reduce(into: [:]) { result, element in
                 if let slot = TimeSlot(rawValue: element.key) {
                     result[slot] = element.value
@@ -23,7 +21,6 @@ final class AppSettings {
             }
         }
         set {
-            // Convert TimeSlot keys to String keys for storage
             let rawDictionaryArray = newValue.map { ($0.key.rawValue, $0.value) }
             self._notificationTimesRaw = Dictionary(uniqueKeysWithValues: rawDictionaryArray)
             print("✅ SETTER: _notificationTimesRaw updated.")

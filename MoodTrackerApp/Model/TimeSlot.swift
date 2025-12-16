@@ -13,6 +13,14 @@ enum TimeSlot: String, CaseIterable, Identifiable, Codable {
     case evening = "Evening"
     var id: String { self.rawValue }
     
+    var hourRange: ClosedRange<Int> {
+        switch self {
+        case .morning: return 0...11
+        case .afternoon: return 12...17
+        case .evening: return 18...23   
+        }
+    }
+    
     var defaultTime: Date {
         let calendar = Calendar.current
         var components = DateComponents()
