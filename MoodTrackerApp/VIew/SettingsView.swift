@@ -23,6 +23,8 @@ struct SettingsView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .buttonStyle(.borderedProminent)
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
             }
             .navigationTitle("Settings")
             .alert("Times Saved", isPresented: $showSavedAlert) {
