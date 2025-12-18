@@ -22,7 +22,7 @@ struct BlockedTimeSlot: View {
     private var localizedMessage: String {
         let template = viewModel.settings.language.localize("SlotBlockedMessage")
         
-        return String(format: template.replacingOccurrences(of: "%s", with: "%@"), localizedSlotName.lowercased(), viewModel.formattedTime)
+        return String(format: template, localizedSlotName.lowercased(), viewModel.formattedTime)
     }
     
     

@@ -20,7 +20,7 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 Section(settings.language.localize("LanguageSettingsTitle")) {
-                    Picker("App Language", selection: $settings.language) {
+                    Picker(settings.language.localize("LanguageSettingsTitle"), selection: $settings.language) {
                         ForEach(AppLanguage.allCases) { lang in
                                 Text(lang.rawValue).tag(lang)
                             }

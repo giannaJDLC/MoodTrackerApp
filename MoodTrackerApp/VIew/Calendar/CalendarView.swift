@@ -23,7 +23,7 @@ struct CalendarView: View {
     var body: some View {
         NavigationView {
             VStack {
-                CalendarHeader(currentDate: $currentDate)
+                CalendarHeader(currentDate: $currentDate, settings: settings)
                 
                 ScrollView {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 10) {

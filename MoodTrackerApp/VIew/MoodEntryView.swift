@@ -18,46 +18,48 @@ struct MoodEntryView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                Picker("Time Slot", selection: $viewModel.selectedSlot) {
-                    ForEach(TimeSlot.allCases) { slot in
-                        Text(slot.localizedName(for: settings.language)).tag(slot)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-
-                if viewModel.isSlotAccessible {
-                    Text(viewModel.countdownString)
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color.red.opacity(0.8))
-                }
-
-                ZStack {
-                    VStack(spacing: 20) {
-                        MoodSelectionView(viewModel: viewModel)
-                        Divider()
-                        ThoughtSelectionView(viewModel: viewModel)
-                        Spacer()
-                        Button(viewModel.localizedSaveButtonText) {
-                            viewModel.saveEntry()
+            ScrollView {
+                VStack(spacing: 20) {
+                    Picker("Time Slot", selection: $viewModel.selectedSlot) {
+                        ForEach(TimeSlot.allCases) { slot in
+                            Text(slot.localizedName(for: settings.language)).tag(slot)
                         }
-                        .disabled(!viewModel.isFormValid)
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
                     }
-//                    if !viewModel.isSlotAccessible {
-//                        BlockedTimeSlot(viewModel: viewModel, formattedTime: viewModel.formattedTime)
-//                    }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal)
+
+                    if viewModel.isSlotAccessible {
+                        Text(viewModel.countdownString)
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.red.opacity(0.8))
+                    }
+
+                    ZStack {
+                        VStack(spacing: 20) {
+                            MoodSelectionView(viewModel: viewModel)
+                            Divider()
+                            ThoughtSelectionView(viewModel: viewModel)
+                            Button(viewModel.localizedSaveButtonText) {
+                                viewModel.saveEntry()
+                            }
+                            .disabled(!viewModel.isFormValid)
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.large)
+                        }
+                        if !viewModel.isSlotAccessible {
+                            BlockedTimeSlot(viewModel: viewModel, formattedTime: viewModel.formattedTime)
+                        }
+                    }
+                }
+                .navigationTitle(viewModel.localizedTitle)
+                .alert(viewModel.confirmationMessage, isPresented: $viewModel.showConfirmation) {
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text(viewModel.confirmationMessage)
                 }
             }
-            .navigationTitle(viewModel.localizedTitle)
-            .alert(viewModel.confirmationMessage, isPresented: $viewModel.showConfirmation) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(viewModel.confirmationMessage)
-            }
+
         }
     }
 }

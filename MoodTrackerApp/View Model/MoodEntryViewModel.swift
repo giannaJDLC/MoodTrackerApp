@@ -82,7 +82,7 @@ class MoodEntryViewModel: ObservableObject {
             let minutes = Int(remainingTime) / 60
             let seconds = Int(remainingTime) % 60
             let timeremaining = "\(minutes)m \(seconds)s"
-            let action = existingEntry == nil ? "You have \(timeremaining) to create your entry" : "You have \(timeremaining) to edit your entry"
+            let action = existingEntry == nil ? String(format: settings.language.localize("TimeRemainingCreate"), timeremaining) : String(format: settings.language.localize("TimeRemainingEdit"), timeremaining)
 
             return action
         }
@@ -136,7 +136,7 @@ class MoodEntryViewModel: ObservableObject {
                 entryToUpdate.mood = mood
                 entryToUpdate.thoughtCategory = thought
                 entryToUpdate.date = Date() // Update timestamp to now
-                confirmationMessage = "Entry Successfully Updated!"
+                confirmationMessage = settings.language.localize("EntryUpdated")
 
             } else {
                 // CREATE
@@ -148,7 +148,7 @@ class MoodEntryViewModel: ObservableObject {
                 )
                 modelContext.insert(newEntry)
                 self.existingEntry = newEntry
-                confirmationMessage = "Entry Successfully Saved!"
+                confirmationMessage = settings.language.localize("EntrySaved")
             }
 
             try modelContext.save()
@@ -156,7 +156,7 @@ class MoodEntryViewModel: ObservableObject {
 
         } catch {
             print("Error saving/updating entry: \(error)")
-            confirmationMessage = "An error occurred while saving."
+            confirmationMessage = settings.language.localize("ErrorSaving")
             showConfirmation = true
         }
     }

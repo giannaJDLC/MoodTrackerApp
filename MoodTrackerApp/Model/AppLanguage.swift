@@ -9,7 +9,7 @@ import Foundation
 
 enum AppLanguage: String, CaseIterable, Identifiable, Codable {
     case english = "English"
-    case spanish = "Spanish"
+    case spanish = "Español"
     
     var id: String { self.rawValue }
     
@@ -64,10 +64,10 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
             case "ErrorSaving": return "An error occurred while saving."
                 
             // --- Time Slot Blockers & Countdown ---
-            case "TimeRemainingCreate": return "You have %s to create your entry" // %s is the time
-            case "TimeRemainingEdit": return "You have %s to edit your entry"    // %s is the time
+            case "TimeRemainingCreate": return "You have %@ to create your entry"
+            case "TimeRemainingEdit": return "You have %@ to edit your entry"
             case "SlotBlockedTitle": return "Entry Blocked"
-            case "SlotBlockedMessage": return "You can only record an entry for the %s slot during its allotted time (%s)." // 1st %s is slot name, 2nd %s is time range
+            case "SlotBlockedMessage": return "You can only record an entry for the %@ slot during its allotted time (%@)."
                 
             // --- Analysis
             case "AnalysisWeeklyTitle": return "Weekly Analysis: Time of Day Patterns"
@@ -76,7 +76,7 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
             case "NoEntries7Days": return "No entries in the last 7 days."
             case "NotEnoughMonthly": return "Not enough data (less than 2 weeks) for monthly analysis."
             case "NotEnoughUsage": return "Not enough data to track usage."
-            case "SlotLabel": return "%s Slot:"
+            case "SlotLabel": return "%@ Slot:"
             case "WeekOf": return "Week of %@"
             case "AvgMood": return "Avg Mood:"
             case "CommonThought": return "Most Common Thought:"
@@ -135,10 +135,10 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
             case "ErrorSaving": return "Ocurrió un error al guardar."
 
             // --- Time Slot Blockers & Countdown ---
-            case "TimeRemainingCreate": return "Tienes %s para crear tu registro" // %s is the time
-            case "TimeRemainingEdit": return "Tienes %s para editar tu registro"    // %s is the time
+            case "TimeRemainingCreate": return "Tienes %@ para crear tu registro"
+            case "TimeRemainingEdit": return "Tienes %@ para editar tu registro"
             case "SlotBlockedTitle": return "Registro Bloqueado"
-            case "SlotBlockedMessage": return "Solo puedes registrar una entrada para el espacio de la %s durante su tiempo asignado (%s)." // 1st %s is slot name, 2nd %s is time range
+            case "SlotBlockedMessage": return "Solo puedes registrar una entrada para el espacio de la %@ durante su tiempo asignado (%@)."
 
             // --- Analysis ---
             case "AnalysisWeeklyTitle": return "Análisis Semanal: Patrones por Momento del Día"
@@ -147,7 +147,7 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
             case "NoEntries7Days": return "No hay registros en los últimos 7 días."
             case "NotEnoughMonthly": return "No hay suficientes datos (menos de 2 semanas) para el análisis mensual."
             case "NotEnoughUsage": return "No hay suficientes datos para rastrear el uso."
-            case "SlotLabel": return "Espacio de %s:"
+            case "SlotLabel": return "Espacio de %@:"
             case "WeekOf": return "Semana del %@"
             case "AvgMood": return "Ánimo Promedio:"
             case "CommonThought": return "Pensamiento más Común:"

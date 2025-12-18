@@ -24,7 +24,7 @@ struct AnalysisView: View {
                     if let weeklyAnalysis = vm.weeklyAnalysis {
                         ForEach(weeklyAnalysis.sorted(by: { $0.key.rawValue < $1.key.rawValue }), id: \.key) { slot, dominantMood in
                             HStack {
-                                Text(String(format: language.localize("SlotLabel").replacingOccurrences(of: "%s", with: "%@"), slot.localizedName(for: language)))
+                                Text(String(format: language.localize("SlotLabel"), slot.localizedName(for: language)))
                                 Spacer()
                                 Text("\(dominantMood.icon) \(dominantMood.localizedName(for: language))")
                                     .fontWeight(.medium)
