@@ -7,77 +7,81 @@
 
 import SwiftUI
 import SwiftData
+
+
 struct AnalysisView: View {
     @Query(sort: [SortDescriptor(\MoodEntry.date, order: .reverse)]) var entries: [MoodEntry]
     @State private var vm = AnalysisViewModel()
     @Bindable var settings: AppSettings
     
-    private var localizedTitle: String {
-        settings.language.localize("AnalysisTitle")
-    }
-    
+    private var language: AppLanguage { settings.language }
+
     var body: some View {
         NavigationView {
             List {
-                Section("Weekly Analysis: Time of Day Patterns") {
+                // MARK: - Weekly Section
+                Section(language.localize("AnalysisWeeklyTitle")) {
                     if let weeklyAnalysis = vm.weeklyAnalysis {
                         ForEach(weeklyAnalysis.sorted(by: { $0.key.rawValue < $1.key.rawValue }), id: \.key) { slot, dominantMood in
                             HStack {
-                                Text("\(slot.rawValue) Slot:")
+                                Text(String(format: language.localize("SlotLabel").replacingOccurrences(of: "%s", with: "%@"), slot.localizedName(for: language)))
                                 Spacer()
-                                Text(dominantMood.icon + " \(dominantMood.rawValue.components(separatedBy: " ").last ?? "")")
+                                Text("\(dominantMood.icon) \(dominantMood.localizedName(for: language))")
                                     .fontWeight(.medium)
                             }
                         }
                     } else {
-                        Text("No entries in the last 7 days.")
+                        Text(language.localize("NoEntries7Days"))
                             .foregroundColor(.secondary)
                     }
                 }
                 
-                Section("Monthly Analysis: Weekly Averages") {
+                // MARK: - Monthly Section
+                Section(language.localize("AnalysisMonthlyTitle")) {
                     if let monthlyAnalysis = vm.monthlyAnalysis {
                         ForEach(monthlyAnalysis.sorted(by: { $0.key > $1.key }), id: \.key) { week, results in
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Week of \(week, style: .date)")
+                                // Localized Week Date
+                                Text(String(format: language.localize("WeekOf"), week.formatted(date: .abbreviated, time: .omitted)))
                                     .font(.headline)
                                 
                                 HStack {
-                                    Text("Avg Mood:")
+                                    Text(language.localize("AvgMood"))
                                     Spacer()
-                                    Text(results.dominantMood.icon + " \(results.dominantMood.rawValue.components(separatedBy: " ").last ?? "")")
+                                    Text(results.dominantMood.localizedName(for: language))
                                         .fontWeight(.medium)
                                 }
                                 
                                 HStack {
-                                    Text("Most Common Thought:")
+                                    Text(language.localize("CommonThought"))
                                     Spacer()
-                                    Text(results.dominantThought.rawValue)
+                                    Text(results.dominantThought.localizedName(for: language))
                                         .font(.subheadline)
                                         .multilineTextAlignment(.trailing)
                                 }
                             }
                         }
                     } else {
-                        Text("Not enough data (less than 2 weeks) for monthly analysis.")
+                        Text(language.localize("NotEnoughMonthly"))
                             .foregroundColor(.secondary)
                     }
                 }
                 
-                Section("Usage Analysis: Missed Check-ins (Last 30 Days)") {
+                // MARK: - Usage Section
+                Section(language.localize("AnalysisUsageTitle")) {
                     if let usageAnalysis = vm.usageAnalysis {
                         HStack {
-                            Text("Total Expected Inputs:")
+                            Text(language.localize("TotalExpected"))
                             Spacer()
                             Text("\(usageAnalysis.totalExpectedInputs)")
                         }
                         HStack {
-                            Text("Total Recorded Inputs:")
+                            Text(language.localize("TotalRecorded"))
                             Spacer()
                             Text("\(usageAnalysis.totalRecordedInputs)")
                         }
                         HStack {
-                            Text("Missed Check-ins:")
+                            Text(language.localize("MissedCheckins"))
                             Spacer()
                             Text("\(usageAnalysis.totalMissedInputs)")
                                 .fontWeight(.bold)
@@ -85,17 +89,19 @@ struct AnalysisView: View {
                         }
                         .padding(.vertical, 4)
                         
-                        Text("This suggests **\(String(format: "%.1f", usageAnalysis.missedPercentage))%** of check-ins were missed.")
+                        // Localized percentage string
+                        let percentageStr = String(format: "%.1f", usageAnalysis.missedPercentage)
+                        Text(LocalizedStringKey(String(format: language.localize("UsageSuggestion"), percentageStr)))
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .padding(.top, 4)
                     } else {
-                        Text("Not enough data to track usage.")
+                        Text(language.localize("NotEnoughUsage"))
                             .foregroundColor(.secondary)
                     }
                 }
             }
-            .navigationTitle(localizedTitle)
+            .navigationTitle(language.localize("AnalysisTitle"))
             .onChange(of: entries) {
                 vm.update(entries: entries)
             }

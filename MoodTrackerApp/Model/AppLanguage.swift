@@ -69,6 +69,22 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
             case "SlotBlockedTitle": return "Entry Blocked"
             case "SlotBlockedMessage": return "You can only record an entry for the %s slot during its allotted time (%s)." // 1st %s is slot name, 2nd %s is time range
                 
+            // --- Analysis
+            case "AnalysisWeeklyTitle": return "Weekly Analysis: Time of Day Patterns"
+            case "AnalysisMonthlyTitle": return "Monthly Analysis: Weekly Averages"
+            case "AnalysisUsageTitle": return "Usage Analysis: Missed Check-ins (Last 30 Days)"
+            case "NoEntries7Days": return "No entries in the last 7 days."
+            case "NotEnoughMonthly": return "Not enough data (less than 2 weeks) for monthly analysis."
+            case "NotEnoughUsage": return "Not enough data to track usage."
+            case "SlotLabel": return "%s Slot:"
+            case "WeekOf": return "Week of %@"
+            case "AvgMood": return "Avg Mood:"
+            case "CommonThought": return "Most Common Thought:"
+            case "TotalExpected": return "Total Expected Inputs:"
+            case "TotalRecorded": return "Total Recorded Inputs:"
+            case "MissedCheckins": return "Missed Check-ins:"
+            case "UsageSuggestion": return "This suggests **%@%%** of check-ins were missed."
+                
             default: return key
             }
         case .spanish:
@@ -124,10 +140,26 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
             case "SlotBlockedTitle": return "Registro Bloqueado"
             case "SlotBlockedMessage": return "Solo puedes registrar una entrada para el espacio de la %s durante su tiempo asignado (%s)." // 1st %s is slot name, 2nd %s is time range
 
-
+            // --- Analysis ---
+            case "AnalysisWeeklyTitle": return "Análisis Semanal: Patrones por Momento del Día"
+            case "AnalysisMonthlyTitle": return "Análisis Mensual: Promedios Semanales"
+            case "AnalysisUsageTitle": return "Análisis de Uso: Registros Perdidos (Últimos 30 Días)"
+            case "NoEntries7Days": return "No hay registros en los últimos 7 días."
+            case "NotEnoughMonthly": return "No hay suficientes datos (menos de 2 semanas) para el análisis mensual."
+            case "NotEnoughUsage": return "No hay suficientes datos para rastrear el uso."
+            case "SlotLabel": return "Espacio de %s:"
+            case "WeekOf": return "Semana del %@"
+            case "AvgMood": return "Ánimo Promedio:"
+            case "CommonThought": return "Pensamiento más Común:"
+            case "TotalExpected": return "Entradas Esperadas:"
+            case "TotalRecorded": return "Entradas Registradas:"
+            case "MissedCheckins": return "Registros No Ingresados:"
+            case "UsageSuggestion": return "Esto sugiere que no ingresó el **%@%%** de los registros."
 
             default: return key
             }
         }
     }
 }
+
+
