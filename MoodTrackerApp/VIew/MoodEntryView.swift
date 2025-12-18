@@ -21,7 +21,7 @@ struct MoodEntryView: View {
             VStack(spacing: 20) {
                 Picker("Time Slot", selection: $viewModel.selectedSlot) {
                     ForEach(TimeSlot.allCases) { slot in
-                        Text(slot.rawValue).tag(slot)
+                        Text(slot.localizedName(for: settings.language)).tag(slot)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -40,19 +40,19 @@ struct MoodEntryView: View {
                         Divider()
                         ThoughtSelectionView(viewModel: viewModel)
                         Spacer()
-                        Button(viewModel.existingEntry == nil ? "Save Entry" : "Update Entry") {
+                        Button(viewModel.localizedSaveButtonText) {
                             viewModel.saveEntry()
                         }
                         .disabled(!viewModel.isFormValid)
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                     }
-                    if !viewModel.isSlotAccessible {
-                        BlockedTimeSlot(formattedTime: viewModel.formattedTime)
-                    }
+//                    if !viewModel.isSlotAccessible {
+//                        BlockedTimeSlot(viewModel: viewModel, formattedTime: viewModel.formattedTime)
+//                    }
                 }
             }
-            .navigationTitle("Daily Check-in")
+            .navigationTitle(viewModel.localizedTitle)
             .alert(viewModel.confirmationMessage, isPresented: $viewModel.showConfirmation) {
                 Button("OK", role: .cancel) {}
             } message: {

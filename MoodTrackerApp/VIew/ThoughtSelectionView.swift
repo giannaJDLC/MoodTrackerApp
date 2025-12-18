@@ -9,10 +9,14 @@ import SwiftUI
 
 struct ThoughtSelectionView: View {
     @ObservedObject var viewModel: MoodEntryViewModel
+    
+    private var localizedTitle: String {
+        viewModel.settings.language.localize("SelectCategory")
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("2. Describe your current thought pattern:")
+            Text(localizedTitle)
                 .font(.headline)
                 .foregroundColor(.primary)
 
@@ -22,7 +26,7 @@ struct ThoughtSelectionView: View {
                         viewModel.selectedThought = category
                     } label: {
                         HStack {
-                            Text(category.rawValue)
+                            Text(category.localizedName(for: viewModel.settings.language))
                             Spacer()
                             if viewModel.selectedThought == category {
                                 Image(systemName: "checkmark.circle.fill")

@@ -33,4 +33,8 @@ enum TimeSlot: String, CaseIterable, Identifiable, Codable {
         
         return calendar.date(from: components) ?? Date()
     }
+    
+    func localizedName(for language: AppLanguage) -> String {
+        language.localize(self.rawValue)
+    }
 }

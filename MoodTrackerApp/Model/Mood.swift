@@ -8,12 +8,27 @@
 import Foundation
 
 enum Mood: String, CaseIterable, Identifiable, Codable {
-    case angry = "😠 Angry"
-    case neutral = "😐 Neutral"
-    case sad = "😞 Sad"
-    case happy = "🙂 Happy"
-    case excited = "🤩 Excited"
+    case happy = "happy"
+    case neutral = "neutral"
+    case sad = "sad"
+    case angry = "angry"
+    case excited = "excited"
+    case overwhelmed = "overwhelmed"
     
     var id: String { self.rawValue }
-    var icon: String { String(self.rawValue.prefix(2)) }
+    
+    var icon: String {
+        switch self {
+        case .happy: return "🙂"
+        case .neutral: return "😐"
+        case .sad: return "😞"
+        case .angry: return "😠"
+        case .excited: return "🤩"
+        case .overwhelmed: return "😫"
+        }
+    }
+    
+    func localizedName(for language: AppLanguage) -> String {
+       language.localize(self.rawValue)
+    }
 }

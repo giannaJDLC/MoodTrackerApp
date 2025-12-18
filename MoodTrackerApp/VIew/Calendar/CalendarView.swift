@@ -10,9 +10,15 @@ import SwiftData
 
 struct CalendarView: View {
     @Query(sort: [SortDescriptor(\MoodEntry.date, order: .reverse)]) var entries: [MoodEntry]
+    
+    @Bindable var settings: AppSettings
         
     @State private var currentDate = Date()
     @State private var vm = CalendarViewModel()
+    
+    private var localizedTitle: String {
+           settings.language.localize("HistoryTitle")
+       }
     
     var body: some View {
         NavigationView {
@@ -28,7 +34,7 @@ struct CalendarView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Mood History")
+            .navigationTitle(localizedTitle)
             
             // when the view first loads
             .onAppear {

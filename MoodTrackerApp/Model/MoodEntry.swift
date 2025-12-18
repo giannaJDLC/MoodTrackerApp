@@ -12,12 +12,24 @@ import SwiftData
 final class MoodEntry {
     var id = UUID()
     var date: Date
-    var mood: Mood
-    var thoughtCategory: ThoughtCategory
+    var moodRawValue: String
+    var thoughtCategoryRawValue: String
     var timeSlotRawValue: String
     
     var calendarDay: Date {
         Calendar.current.startOfDay(for: date)
+    }
+    
+    @Transient
+    var mood: Mood {
+        get { return Mood(rawValue: moodRawValue) ?? .neutral }
+        set { moodRawValue = newValue.rawValue }
+    }
+    
+    @Transient
+    var thoughtCategory: ThoughtCategory {
+        get { return ThoughtCategory(rawValue: thoughtCategoryRawValue) ?? .other }
+        set { thoughtCategoryRawValue = newValue.rawValue }
     }
     
     @Transient
@@ -29,8 +41,8 @@ final class MoodEntry {
     init(date: Date, timeSlot: TimeSlot, mood: Mood, thoughtCategory: ThoughtCategory) {
         self.date = date
         self.timeSlotRawValue = timeSlot.rawValue
-        self.mood = mood
-        self.thoughtCategory = thoughtCategory
+        self.moodRawValue = mood.rawValue
+        self.thoughtCategoryRawValue = thoughtCategory.rawValue
     }
     
 

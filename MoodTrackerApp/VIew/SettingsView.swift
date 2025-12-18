@@ -12,12 +12,24 @@ struct SettingsView: View {
     @Bindable var settings: AppSettings
     @State private var showSavedAlert = false
     
+    private var localizedTitle: String {
+        settings.language.localize("SettingsTitle")
+    }
+    
     var body: some View {
         NavigationView {
             Form {
+                Section(settings.language.localize("LanguageSettingsTitle")) {
+                    Picker("App Language", selection: $settings.language) {
+                        ForEach(AppLanguage.allCases) { lang in
+                                Text(lang.rawValue).tag(lang)
+                            }
+                        }
+                    }
+                               
                 NotificationTimeSection(settings: settings)
                 
-                Button("Save and Update Notifications") {
+                Button(settings.language.localize("SaveButton")) {
                     settings.scheduleNotifications()
                     showSavedAlert = true
                 }
@@ -26,11 +38,11 @@ struct SettingsView: View {
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
             }
-            .navigationTitle("Settings")
-            .alert("Times Saved", isPresented: $showSavedAlert) {
-                Button("OK") {}
+            .navigationTitle(localizedTitle)
+            .alert(settings.language.localize("Times Saved Alert Title"), isPresented: $showSavedAlert) {
+                        Button("OK") {}
             } message: {
-                Text("Your new notification times have been scheduled.")
+                Text(settings.language.localize("Times Saved Alert Message"))
             }
         }
     }
@@ -40,6 +52,7 @@ struct NotificationTimeRow: View {
     let slot: TimeSlot
     @Binding var date: Date
     let isLocked: Bool
+    let language: AppLanguage 
     
     private var hourBinding: Binding<Int> {
         Binding<Int>(
@@ -48,7 +61,6 @@ struct NotificationTimeRow: View {
             },
             set: { newHour in
                 let calendar = Calendar.current
-                // Create a new date based on the existing date, but with the new hour and 0 minutes/seconds
                 if let newDate = calendar.date(bySettingHour: newHour, minute: 0, second: 0, of: date) {
                     date = newDate
                 }
@@ -58,7 +70,7 @@ struct NotificationTimeRow: View {
 
     var body: some View {
         HStack {
-            Text(slot.rawValue)
+            Text(language.localize(slot.rawValue))
             Spacer()
             
             Picker("", selection: hourBinding) {
@@ -90,7 +102,7 @@ private struct NotificationTimeSection: View {
     @Bindable var settings: AppSettings
     
     var body: some View {
-        Section("Notification Check-in Times") {
+        Section(settings.language.localize("NotificationSectionTitle")) {
             ForEach(TimeSlot.allCases) { slot in
                 let lockStatus = isSlotLocked(slot: slot)
                 
@@ -102,7 +114,8 @@ private struct NotificationTimeSection: View {
                             settings.notificationTimes[slot] = newDate
                         }
                     ),
-                    isLocked: lockStatus
+                    isLocked: lockStatus,
+                    language: settings.language
                 )
             }
         }

@@ -11,6 +11,7 @@ import SwiftData
 @Model
 final class AppSettings {
     var _notificationTimesRaw: [String: Date]
+    var language: AppLanguage
     
     @Transient var notificationTimes: [TimeSlot: Date] {
         get {
@@ -33,6 +34,7 @@ final class AppSettings {
             TimeSlot.afternoon.rawValue: TimeSlot.afternoon.defaultTime,
             TimeSlot.evening.rawValue: TimeSlot.evening.defaultTime
         ]
+        self.language = .english 
         requestNotificationPermission()
     }
     

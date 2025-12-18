@@ -19,16 +19,16 @@ struct ContentView: View {
            if let settings = currentSettings {
                       TabView {
                           MoodEntryView(settings: settings, modelContext: modelContext)
-                              .tabItem { Label("Entry", systemImage: "pencil.circle.fill") }
+                              .tabItem { Label(settings.language.localize("EntryTitle"), systemImage: "pencil.circle.fill") }
                           
-                          CalendarView()
-                              .tabItem { Label("History", systemImage: "calendar") }
+                          CalendarView(settings: settings)
+                              .tabItem { Label(settings.language.localize("HistoryTitle"), systemImage: "calendar") }
                           
-                          AnalysisView()
-                              .tabItem { Label("Analysis", systemImage: "chart.bar.xaxis") }
+                          AnalysisView(settings: settings)
+                              .tabItem { Label(settings.language.localize("AnalysisTitle"), systemImage: "chart.bar.xaxis") }
                           
                           SettingsView(settings: settings)
-                              .tabItem { Label("Settings", systemImage: "gearshape.fill") }
+                              .tabItem { Label(settings.language.localize("SettingsTitle"), systemImage: "gearshape.fill") }
                       }
                   } else {
                       ProgressView("Loading Settings...")

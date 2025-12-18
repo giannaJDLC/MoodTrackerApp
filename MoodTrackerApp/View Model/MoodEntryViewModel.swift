@@ -12,7 +12,7 @@ import Combine
 @MainActor
 class MoodEntryViewModel: ObservableObject {
     private var modelContext: ModelContext
-    private let settings: AppSettings
+    let settings: AppSettings
     private var cancellables = Set<AnyCancellable>()
 
     @Published var selectedMood: Mood?
@@ -33,13 +33,17 @@ class MoodEntryViewModel: ObservableObject {
         setupTimer()
         loadExistingEntry()
     }
+    
+    var localizedTitle: String {
+           settings.language.localize("DailyCheckinTitle")
+       }
+       
 
-    private func setupTimer() {
-        Timer.publish(every: 1, on: .main, in: .common)
-            .autoconnect()
-            .assign(to: \.currentTime, on: self)
-            .store(in: &cancellables)
-    }
+    var localizedSaveButtonText: String {
+           existingEntry == nil ? settings.language.localize("SaveEntryButton") : settings.language.localize("UpdateEntryButton")
+       }
+    
+
 
     var isFormValid: Bool {
         selectedMood != nil && selectedThought != nil
@@ -83,6 +87,13 @@ class MoodEntryViewModel: ObservableObject {
             return action
         }
         return ""
+    }
+    
+    private func setupTimer() {
+        Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .assign(to: \.currentTime, on: self)
+            .store(in: &cancellables)
     }
 
     func loadExistingEntry() {

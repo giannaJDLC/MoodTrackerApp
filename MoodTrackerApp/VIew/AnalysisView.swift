@@ -10,6 +10,11 @@ import SwiftData
 struct AnalysisView: View {
     @Query(sort: [SortDescriptor(\MoodEntry.date, order: .reverse)]) var entries: [MoodEntry]
     @State private var vm = AnalysisViewModel()
+    @Bindable var settings: AppSettings
+    
+    private var localizedTitle: String {
+        settings.language.localize("AnalysisTitle")
+    }
     
     var body: some View {
         NavigationView {
@@ -90,7 +95,7 @@ struct AnalysisView: View {
                     }
                 }
             }
-            .navigationTitle("Insights")
+            .navigationTitle(localizedTitle)
             .onChange(of: entries) {
                 vm.update(entries: entries)
             }

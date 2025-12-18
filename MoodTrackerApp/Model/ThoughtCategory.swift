@@ -8,10 +8,14 @@
 import Foundation
 
 enum ThoughtCategory: String, CaseIterable, Identifiable, Codable {
-    case practical = "Practical / Task-oriented"
-    case emotional = "Emotional / Feeling-based"
-    case inspirational = "Inspirational / Motivational"
-    case fog = "Brain Fog / I don't Know"
-    
-    var id: String { self.rawValue }
+    case practical = "practical"
+       case emotional = "emotional"
+       case inspirational = "inspirational"
+       case other = "other"
+       
+       var id: String { self.rawValue }
+       
+       func localizedName(for language: AppLanguage) -> String {
+           language.localize(self.rawValue)
+       }
 }
