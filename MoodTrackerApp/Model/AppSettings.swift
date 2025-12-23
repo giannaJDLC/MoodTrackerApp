@@ -61,8 +61,8 @@ final class AppSettings {
             dateComponents.minute = minute
             
             let content = UNMutableNotificationContent()
-            content.title = "Mood Check-in: \(slot.rawValue)"
-            content.body = "Time to check in! How are you feeling?"
+            content.title = String(format: language.localize("TimeToCheckInTitle"), slot.localizedName(for: language))
+            content.body = language.localize("TimeToCheckInBody")
             content.sound = UNNotificationSound.default
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)

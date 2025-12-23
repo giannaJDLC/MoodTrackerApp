@@ -28,11 +28,13 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
                 
             // --- Settings ---
             case "LanguageSettingsTitle": return "Language"
-
-            // --- Notifications ---
             case "NotificationSectionTitle": return "Notification Check-in Times"
-            case "Times Saved Alert Title": return "Times Saved"
-            case "Times Saved Alert Message": return "Your new notification times have been scheduled."
+                
+            // --- Notifications ---
+            case "TimeToCheckInTitle": return "Mood Check-in: %@"
+            case "TimeToCheckInBody": return "Time to check in! How are you feeling?"
+//            case "Times Saved Alert Title": return "Times Saved"
+//            case "Times Saved Alert Message": return "Your new notification times have been scheduled."
 
             // --- Time Slots ---
             case "Morning": return "Morning"
@@ -99,11 +101,13 @@ enum AppLanguage: String, CaseIterable, Identifiable, Codable {
 
             // --- Settings ---
             case "LanguageSettingsTitle": return "Idioma"
-                
-            // --- Notifications ---
             case "NotificationSectionTitle": return "Horarios de Notificación"
-            case "Times Saved Alert Title": return "Horarios Guardados"
-            case "Times Saved Alert Message": return "Tus nuevos horarios de notificación han sido programados."
+
+            // --- Notifications ---
+            case "TimeToCheckInTitle": return "Registra Tu Animo: %@"
+            case "TimeToCheckInBody": return "¡Es hora de registrarse! ¿Cómo te sientes?"
+//            case "Times Saved Alert Title": return "Horarios Guardados"
+//            case "Times Saved Alert Message": return "Tus nuevos horarios de notificación han sido programados."
 
             // --- Time Slots ---
             case "Morning": return "Mañana"

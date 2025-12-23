@@ -10,7 +10,6 @@ import SwiftData
 
 struct SettingsView: View {
     @Bindable var settings: AppSettings
-    @State private var showSavedAlert = false
     
     private var localizedTitle: String {
         settings.language.localize("SettingsTitle")
@@ -22,27 +21,19 @@ struct SettingsView: View {
                 Section(settings.language.localize("LanguageSettingsTitle")) {
                     Picker(settings.language.localize("LanguageSettingsTitle"), selection: $settings.language) {
                         ForEach(AppLanguage.allCases) { lang in
-                                Text(lang.rawValue).tag(lang)
-                            }
+                            Text(lang.rawValue).tag(lang)
                         }
                     }
-                               
-                NotificationTimeSection(settings: settings)
-                
-                Button(settings.language.localize("SaveButton")) {
-                    settings.scheduleNotifications()
-                    showSavedAlert = true
                 }
-                .frame(maxWidth: .infinity)
-                .buttonStyle(.borderedProminent)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
+                
+                NotificationTimeSection(settings: settings)
             }
             .navigationTitle(localizedTitle)
-            .alert(settings.language.localize("Times Saved Alert Title"), isPresented: $showSavedAlert) {
-                        Button("OK") {}
-            } message: {
-                Text(settings.language.localize("Times Saved Alert Message"))
+            .onChange(of: settings._notificationTimesRaw) {
+                settings.scheduleNotifications()
+            }
+            .onChange(of: settings.language) {
+                settings.scheduleNotifications()
             }
         }
     }
